@@ -1,0 +1,77 @@
+{% extends "bootstrap/base.html" %}
+{% block title %}Input Zone Information{% endblock %}
+
+{% block navbar %}
+{{ nav.top.render() }}
+{% endblock %}
+
+{% block metas %}
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+{% endblock %}
+
+{% block styles %}
+  <link href="//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+  <link rel="stylesheet" href="//jqueryui.com/resources/demos/style.css">
+{% endblock %}
+
+{% block scripts %}
+{% endblock %}
+
+
+{% block content %}
+<tr><td>
+<div class="container-fluid">
+
+In the zone file for {{ data['tld'] }} add the following:<br><br><br>
+
+<pre>
+  ; # Delegation of DNS subdomain for {{ data['fqdn'] }}
+  ; A records for SSH access
+  {{ data['host1-short'] }}      IN      A       {{ data['ip1'] }}
+  {{ data['host2-short'] }}      IN      A       {{ data['ip2'] }}
+  {{ data['host3-short'] }}      IN      A       {{ data['ip3'] }}
+
+  ; NS Glue records - please do not change from ns1,2,3
+  ns1.{{ data['fqdn'] }}.      IN      A       {{ data['ip1'] }}
+  ns2.{{ data['fqdn'] }}.      IN      A       {{ data['ip2'] }}
+  ns3.{{ data['fqdn'] }}.      IN      A       {{ data['ip3'] }}
+
+  ; Delegate the subdomain
+  {{ data['fqdn'] }}.     IN      NS      ns1.{{ data['fqdn'] }}.
+  {{ data['fqdn'] }}.     IN      NS      ns2.{{ data['fqdn'] }}.
+  {{ data['fqdn'] }}.     IN      NS      ns3.{{ data['fqdn'] }}.
+
+    </pre>
+
+<br><br>
+To ensure you zone is properly working you should see<br><br>
+<pre>
+# dig ns {{ data['fqdn'] }}
+
+;; QUESTION SECTION:
+;{{ data['fqdn'] }}.	IN	NS
+
+;; ANSWER SECTION:
+{{ data['fqdn'] }}.	218 IN	NS	ns1.{{ data['fqdn'] }}.
+{{ data['fqdn'] }}.	218 IN	NS	ns3.{{ data['fqdn'] }}.
+{{ data['fqdn'] }}.	218 IN	NS	ns2.{{ data['fqdn'] }}.
+
+;; ADDITIONAL SECTION:
+ns1.{{ data['fqdn'] }}. 218	IN A	{{ data['ip1'] }}
+ns2.{{ data['fqdn'] }}. 218	IN A	{{ data['ip2'] }}
+ns3.{{ data['fqdn'] }}. 218	IN A	{{ data['ip3'] }}
+
+</pre>
+
+
+<br><br>You can reach your hosts via SSH: <br><br><br>
+<pre>
+ssh {{ data['host1-short'] }}.{{ data['tld'] }}
+ssh {{ data['host2-short'] }}.{{ data['tld'] }}
+ssh {{ data['host3-short'] }}.{{ data['tld'] }}
+</pre>
+    
+</div>
+{% endblock %}
