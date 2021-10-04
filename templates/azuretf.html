@@ -1,0 +1,72 @@
+{% extends "bootstrap/base.html" %}
+{% block title %}Input Zone Information{% endblock %}
+
+{% block navbar %}
+{{ nav.top.render() }}
+{% endblock %}
+
+{% block metas %}
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+{% endblock %}
+
+{% block styles %}
+  <link href="//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+  <link rel="stylesheet" href="//jqueryui.com/resources/demos/style.css">
+{% endblock %}
+
+{% block scripts %}
+{% endblock %}
+
+
+{% block content %}
+<tr><td>
+<div class="container-fluid">
+
+Modify the locals section to update your zone resource group
+
+<br><br>
+
+<pre>
+
+##########################################################################
+# Modify zone-resource-group to match your local resource group
+locals {
+  zone-resource-group = CHANGE_ME
+  cluster-prefix      = "{{ data['prefix'] }}
+  zone-name           = "{{ data['tld'] }}
+  node-external-ips   = ["{{data['ip1']}}", "{{data['ip2']}}", "{{data['ip3']}}"]
+}
+##########################################################################
+
+provider "azurerm" {
+  features {}
+}
+
+resource "azurerm_dns_ns_record" "re-dns-ns" {
+  name                = local.cluster-prefix
+  zone_name           = local.zone-name
+  resource_group_name = local.zone-resource-group
+  ttl                 = 300
+
+  records = [
+    "ns1.${local.cluster-prefix}.${local.zone-name}",
+    "ns2.${local.cluster-prefix}.${local.zone-name}",
+    "ns3.${local.cluster-prefix}.${local.zone-name}"
+  ]
+
+}
+
+resource "azurerm_dns_a_record" "re-dns-a" {
+  count               = length(local.node-external-ips)
+  name                = "ns${count.index + 1}.${local.cluster-prefix}"
+  zone_name           = local.zone-name
+  resource_group_name = local.zone-resource-group
+  ttl                 = 300
+  records             = [element(local.node-external-ips, count.index)]
+}
+
+</pre>
+</div>
+{% endblock %}
