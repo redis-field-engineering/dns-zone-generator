@@ -27,20 +27,20 @@
   <form action = "/generatezone" method = "POST">
     <div class="form-group">
       <label for="messages">Redis Cluster Enterprise FQDN:</label>
-      <input id="messages" class="form-control" name="fqdn" value="redis.example.com">
+      <input id="messages" class="form-control" name="fqdn" value="{{ zone_info['fqdn'] }}">
     </div>
     <div class="form-group">
       <label for="host1">Nodes:</label>
-      <input id="host1" class="form-control" name="host1" value="node1.example.com">
-      <input id="ip1" class="form-control" name="ip1" value="10.1.1.1">
+      <input id="host1" class="form-control" name="host1" value="{{ zone_info['host1'] }}">
+      <input id="ip1" class="form-control" name="ip1" value="{{ zone_info['ip1'] }}">
     </div>
     <div class="form-group">
-      <input id="host2" class="form-control" name="host2" value="node2.example.com">
-      <input id="ip2" class="form-control" name="ip2" value="10.1.1.2">
+      <input id="host2" class="form-control" name="host2" value="{{ zone_info['host2'] }}">
+      <input id="ip2" class="form-control" name="ip2" value="{{ zone_info['ip2'] }}">
     </div>
     <div class="form-group">
-      <input id="host3" class="form-control" name="host3" value="node3.example.com">
-      <input id="ip3" class="form-control" name="ip3" value="10.1.1.3">
+      <input id="host3" class="form-control" name="host3" value="{{ zone_info['host3'] }}">
+      <input id="ip3" class="form-control" name="ip3" value="{{ zone_info['ip3'] }}">
     </div>
     <div class="form-group">
       <label for="cars">Select DNS Server:</label>

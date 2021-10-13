@@ -23,8 +23,70 @@
 {% block content %}
 <tr><td>
 <div class="container-fluid">
+<h2> Try the <a href="https://github.com/Redislabs-Solution-Architects/dnstracer">DNS Tracer Tool</a> </h2>
+{% if zone_info == None %}
+<br><br>
+Try generating a zone for full troubleshooting information
+{% else %}
 
-<h3> Try the <a href="https://github.com/Redislabs-Solution-Architects/dnstracer">DNS Tracer Tool</a> </h3>
+<h4> On a client node run</h4>
+<pre>
+$  ./dnstracer --suggest -e redis-PORTNUMBER.{{ zone_info['fqdn'] }}
+</pre><br><br>
+
+<h2>Troubleshoot using dig </h2>
+
+<br><h3> Check the Redis Enterprise DNS Service</h3><br><br>
+
+<h4> On {{ zone_info['host1'] }}</h4>
+<pre>
+$ dig +short ns {{ zone_info['fqdn'] }} @localhost
+ns1.{{ zone_info['fqdn'] }}.
+ns2.{{ zone_info['fqdn'] }}.
+ns3.{{ zone_info['fqdn'] }}.
+</pre>
+
+<h4> On {{ zone_info['host2'] }}</h4>
+<pre>
+$ dig +short ns {{ zone_info['fqdn'] }} @localhost
+ns1.{{ zone_info['fqdn'] }}.
+ns2.{{ zone_info['fqdn'] }}.
+ns3.{{ zone_info['fqdn'] }}.
+</pre>
+
+<h4> On {{ zone_info['host3'] }}</h4>
+<pre>
+$ dig +short ns {{ zone_info['fqdn'] }} @localhost
+ns1.{{ zone_info['fqdn'] }}.
+ns2.{{ zone_info['fqdn'] }}.
+ns3.{{ zone_info['fqdn'] }}.
+</pre>
+
+<br><h3> Check Connectivity from the DNS server to Redis Enterprise Service </h3><br><br>
+
+<h4> On the DNS server run </h4>
+<pre>
+$ dig +short ns {{ zone_info['fqdn'] }} @{{ zone_info['ip1'] }}
+$ dig +short ns {{ zone_info['fqdn'] }} @{{ zone_info['ip2'] }}
+$ dig +short ns {{ zone_info['fqdn'] }} @{{ zone_info['ip3'] }}
+</pre>
+
+The responses should all look like
+<pre>
+ns1.{{ zone_info['fqdn'] }}.
+ns3.{{ zone_info['fqdn'] }}.
+ns2.{{ zone_info['fqdn'] }}.
+</pre>
+
+<br><h3> Check Connectivity from the DNS server to Redis Enterprise Service </h3><br><br>
+<h4> On the client server </h4>
+<pre>
+$ dig +short ns {{ zone_info['fqdn'] }}
+ns1.{{ zone_info['fqdn'] }}.
+ns3.{{ zone_info['fqdn'] }}.
+ns2.{{ zone_info['fqdn'] }}.
+</pre>
 
 </div>
+{% endif %}
 {% endblock %}

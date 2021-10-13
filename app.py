@@ -1,13 +1,19 @@
-from flask import Flask, render_template, request, redirect
+from flask import Flask, render_template, request, redirect, session
+from flask_session import Session
 from flask_bootstrap import Bootstrap
 from flask_nav import Nav
 from flask_nav.elements import Navbar, View
 
 
-# From our local file
-
-app = Flask(__name__)
+app = Flask(
+   __name__,
+   static_url_path='/images',
+   static_folder='images',
+   )
 bootstrap = Bootstrap()
+SESSION_TYPE = 'redis'
+
+app.config.from_object(__name__)
 
 
 nav = Nav()
@@ -19,11 +25,24 @@ nav.register_element('top', topbar)
 
 @app.route('/')
 def index():
-   return render_template('index.html')
+   zone_info = session.get('zone_info')
+   if zone_info == None:
+      zone_info = {
+         'fqdn': "redis.example.com",
+         'tld': "example.com",
+         'host1': "ns1.redis.example.com",
+         'host2': "ns2.redis.example.com",
+         'host3': "ns2.redis.example.com",
+         'ip1': "10.1.1.1",
+         'ip2': "10.1.1.2",
+         'ip3': "10.1.1.3",
+      }
+   return render_template('index.html', zone_info = zone_info)
 
 @app.route('/troubleshooting')
 def troubleshooting():
-   return render_template('troubleshooting.html')
+   zone_info = session.get('zone_info')
+   return render_template('troubleshooting.html', zone_info = zone_info)
 
 
 @app.route('/generatezone', methods = ['POST'])
@@ -36,10 +55,14 @@ def generatezone():
    f['host2-short'] = f['host2'].split('.')[0]
    f['host3-short'] = f['host3'].split('.')[0]
    mytemplate = '{}.html'.format(f['server'])
+
+   # Add all the information to the current session
+   session['zone_info'] = f
    return render_template(mytemplate, data = f)
-   #return f
 
 if __name__ == '__main__':
+   sess = Session(app)
+   sess.init_app(app)
    bootstrap.init_app(app)
    nav.init_app(app)
    app.debug = True
