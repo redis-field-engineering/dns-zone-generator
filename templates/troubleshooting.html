@@ -38,7 +38,7 @@ $  ./dnstracer --suggest -e redis-PORTNUMBER.{{ zone_info['fqdn'] }}
 
 <br><h3> Check the Redis Enterprise DNS Service</h3><br><br>
 
-<h4> On {{ zone_info['host1'] }}</h4>
+<h4> On {{ zone_info['host1-short'] }}.{{ zone_info['tld'] }}</h4>
 <pre>
 $ dig +short ns {{ zone_info['fqdn'] }} @localhost
 ns1.{{ zone_info['fqdn'] }}.
@@ -46,7 +46,7 @@ ns2.{{ zone_info['fqdn'] }}.
 ns3.{{ zone_info['fqdn'] }}.
 </pre>
 
-<h4> On {{ zone_info['host2'] }}</h4>
+<h4> On {{ zone_info['host2-short'] }}.{{ zone_info['tld'] }}</h4>
 <pre>
 $ dig +short ns {{ zone_info['fqdn'] }} @localhost
 ns1.{{ zone_info['fqdn'] }}.
@@ -54,7 +54,7 @@ ns2.{{ zone_info['fqdn'] }}.
 ns3.{{ zone_info['fqdn'] }}.
 </pre>
 
-<h4> On {{ zone_info['host3'] }}</h4>
+<h4> On {{ zone_info['host3-short'] }}.{{ zone_info['tld'] }}</h4>
 <pre>
 $ dig +short ns {{ zone_info['fqdn'] }} @localhost
 ns1.{{ zone_info['fqdn'] }}.
@@ -78,7 +78,7 @@ ns3.{{ zone_info['fqdn'] }}.
 ns2.{{ zone_info['fqdn'] }}.
 </pre>
 
-<br><h3> Check Connectivity from the DNS server to Redis Enterprise Service </h3><br><br>
+<br><h3> Check Client resolution of the Redis Enterprise Service</h3><br><br>
 <h4> On the client server </h4>
 <pre>
 $ dig +short ns {{ zone_info['fqdn'] }}

@@ -30,9 +30,9 @@ def index():
       zone_info = {
          'fqdn': "redis.example.com",
          'tld': "example.com",
-         'host1': "ns1.redis.example.com",
-         'host2': "ns2.redis.example.com",
-         'host3': "ns2.redis.example.com",
+         'host1-short': "ns1",
+         'host2-short': "ns2",
+         'host3-short': "ns2",
          'ip1': "10.1.1.1",
          'ip2': "10.1.1.2",
          'ip3': "10.1.1.3",

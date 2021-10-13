@@ -27,7 +27,8 @@
 In the zone file for {{ data['tld'] }} add the following:<br><br><br>
 
 <pre>
-  ; # Delegation of DNS subdomain for {{ data['fqdn'] }}
+  ; Place in {{ data['tld'] }} zone file
+  ; Delegation of DNS subdomain for {{ data['fqdn'] }}
   ; A records for SSH access
   {{ data['host1-short'] }}      IN      A       {{ data['ip1'] }}
   {{ data['host2-short'] }}      IN      A       {{ data['ip2'] }}
