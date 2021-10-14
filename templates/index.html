@@ -45,9 +45,9 @@
     <div class="form-group">
       <label for="cars">Select DNS Server:</label>
       <select name="server" id="server" class="form-control">
-        <option value="bind">Bind</option>
-        <option value="azuretf">Azure Terraform</option>
-        <option value="route53tf">AWS Route53 Terraform</option>
+        <option {% if zone_info['server'] == "bind" %} selected="selected" {% endif -%} value="bind">Bind</option>
+        <option {% if zone_info['server'] == "azuretf" %} selected="selected" {% endif -%} value="azuretf">Azure Terraform</option>
+        <option {% if zone_info['server'] == "route53tf" %} selected="selected" {% endif -%} value="route53tf">AWS Route53 Terraform</option>
       </select>
     </div>
     <div class="form-group">
