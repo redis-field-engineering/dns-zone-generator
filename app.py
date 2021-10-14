@@ -3,6 +3,7 @@ from flask_session import Session
 from flask_bootstrap import Bootstrap
 from flask_nav import Nav
 from flask_nav.elements import Navbar, View
+from IPy import IP
 
 
 app = Flask(
@@ -36,6 +37,7 @@ def index():
          'ip1': "10.1.1.1",
          'ip2': "10.1.1.2",
          'ip3': "10.1.1.3",
+         'iptype': 'PRIVATE'
       }
    return render_template('index.html', zone_info = zone_info)
 
@@ -54,6 +56,7 @@ def generatezone():
    f['host1-short'] = f['host1'].split('.')[0]
    f['host2-short'] = f['host2'].split('.')[0]
    f['host3-short'] = f['host3'].split('.')[0]
+   f['iptype'] = IP(f['ip1']).iptype()
    mytemplate = '{}.html'.format(f['server'])
 
    # Add all the information to the current session

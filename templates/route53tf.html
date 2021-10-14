@@ -1,0 +1,109 @@
+{% extends "bootstrap/base.html" %}
+{% block title %}Input Zone Information{% endblock %}
+
+{% block navbar %}
+{{ nav.top.render() }}
+{% endblock %}
+
+{% block metas %}
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+{% endblock %}
+
+{% block styles %}
+  <link href="//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+  <link rel="stylesheet" href="//jqueryui.com/resources/demos/style.css">
+{% endblock %}
+
+{% block scripts %}
+{% endblock %}
+
+
+{% block content %}
+<tr><td>
+<div class="container-fluid">
+
+{% if data['iptype'] == 'PRIVATE' %}
+This is a private IP address and needs to be worked around using <a href="https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/resolver.html"> Route53 fowarders</a><br>
+<br>
+Modify the locals section to update your zone resource group
+{% endif %}
+
+<br><br>
+<pre>
+##########################################################################
+locals {
+  cluster-prefix      = "{{ data['prefix'] }}"
+  zone-name           = "{{ data['tld'] }}"
+  node-external-ips   = ["{{data['ip1']}}", "{{data['ip2']}}", "{{data['ip3']}}"]
+{% if data['iptype'] == 'PRIVATE' %}
+  re-security-group   = "CHANGEME" # ID of the security group
+  subnet1             = "CHANGEME" # Subnet1 ID
+  subnet2             = "CHANGEME" # Subnet2 ID
+  vpc-id              = "CHANGEME" # VPC ID
+{% endif %}
+}
+##########################################################################
+data "aws_route53_zone" "zone" {
+  name         = local.zone-name
+  private_zone = false # This cannot be used with a private zone
+}
+resource "aws_route53_record" "glue" {
+  count   = length(local.node-external-ips)
+  zone_id = data.aws_route53_zone.zone.zone_id
+  name    = "ns${count.index + 1}.${local.cluster-prefix}.${local.zone-name}."
+  type    = "A"
+  ttl     = "300"
+  records = [element(local.node-external-ips, count.index)]
+}
+
+resource "aws_route53_record" "ns" {
+  zone_id = data.aws_route53_zone.zone.zone_id
+  name    = "${local.cluster-prefix}.${local.zone-name}"
+  type    = "NS"
+  ttl     = "300"
+  records = formatlist("ns%s.${local.cluster-prefix}.${local.zone-name}", range(1, length(local.node-external-ips) + 1))
+}
+{% if data['iptype'] == 'PRIVATE' %}
+##########################################################################
+# Setup forwarders
+
+resource "aws_route53_resolver_endpoint" "re-dns-in-endpoint" {
+  name      = "re-dns-in-endpoint"
+  direction = "INBOUND"
+  security_group_ids = [ local.re-security-group ]
+  ip_address { subnet_id = local.subnet1 }
+  ip_address { subnet_id = local.subnet2 }
+}
+
+resource "aws_route53_resolver_endpoint" "re-dns-out-endpoint" {
+  name      = "re-dns-out-endpoint"
+  direction = "OUTBOUND"
+  security_group_ids = [ local.re-security-group ]
+  ip_address { subnet_id = local.subnet1 }
+  ip_address { subnet_id = local.subnet2 }
+}
+
+resource "aws_route53_resolver_rule" "forwarder" {
+  domain_name          = "{{ data['tld'] }}"
+  name                 = "{{ data['prefix'] }}"
+  rule_type            = "FORWARD"
+  resolver_endpoint_id = aws_route53_resolver_endpoint.re-dns-out-endpoint.id
+  target_ip { ip = local.node-external-ips[0] }
+  target_ip { ip = local.node-external-ips[1] }
+  target_ip { ip = local.node-external-ips[2] }
+}
+
+
+resource "aws_route53_resolver_rule_association" "myrule" {
+  resolver_rule_id = aws_route53_resolver_rule.forwarder.id
+  vpc_id           = local.vpc-id
+}
+
+##########################################################################
+{% endif %}
+</pre>
+
+</div>
+{% endblock %}
