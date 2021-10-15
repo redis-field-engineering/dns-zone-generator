@@ -1,6 +1,6 @@
 from PIL import Image, ImageDraw, ImageFont
 
-img = Image.open('assets/route53_aws_a_record.png')
+img = Image.open('assets/route53_record.png')
 d1 = ImageDraw.Draw(img)
 myFont = ImageFont.truetype("assets/Amazon-Ember-Medium.ttf", 14)
 d1.text((286, 62), "mydomain.com", font=myFont, fill =(0,115,187))
@@ -10,7 +10,7 @@ d1.text((464, 259), "A - Routes traffice to an IPv4 address..", font=myFont, fil
 d1.text((819, 259), "10.0.1.1", font=myFont, fill =(0,0,0))
 img.save("/tmp/out/ns1.png")
 
-img = Image.open('assets/route53_aws_a_record.png')
+img = Image.open('assets/route53_record.png')
 d1 = ImageDraw.Draw(img)
 myFont = ImageFont.truetype("assets/Amazon-Ember-Medium.ttf", 14)
 d1.text((286, 62), "mydomain.com", font=myFont, fill =(0,115,187))
@@ -20,7 +20,7 @@ d1.text((464, 259), "A - Routes traffice to an IPv4 address..", font=myFont, fil
 d1.text((819, 259), "10.0.1.2", font=myFont, fill =(0,0,0))
 img.save("/tmp/out/ns2.png")
 
-img = Image.open('assets/route53_aws_a_record.png')
+img = Image.open('assets/route53_record.png')
 d1 = ImageDraw.Draw(img)
 myFont = ImageFont.truetype("assets/Amazon-Ember-Medium.ttf", 14)
 d1.text((286, 62), "mydomain.com", font=myFont, fill =(0,115,187))
@@ -30,7 +30,7 @@ d1.text((464, 259), "A - Routes traffice to an IPv4 address..", font=myFont, fil
 d1.text((819, 259), "10.0.1.3", font=myFont, fill =(0,0,0))
 img.save("/tmp/out/ns3.png")
 
-img = Image.open('assets/route53_aws_a_record.png')
+img = Image.open('assets/route53_record.png')
 d1 = ImageDraw.Draw(img)
 myFont = ImageFont.truetype("assets/Amazon-Ember-Medium.ttf", 14)
 d1.text((286, 62), "mydomain.com", font=myFont, fill =(0,115,187))
