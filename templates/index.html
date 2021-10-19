@@ -48,6 +48,7 @@
         <option {% if zone_info['server'] == "bind" %} selected="selected" {% endif -%} value="bind">Bind</option>
         <option {% if zone_info['server'] == "azuretf" %} selected="selected" {% endif -%} value="azuretf">Azure Terraform</option>
         <option {% if zone_info['server'] == "route53tf" %} selected="selected" {% endif -%} value="route53tf">AWS Route53 Terraform</option>
+        <option {% if zone_info['server'] == "route53" %} selected="selected" {% endif -%} value="route53">AWS Route53 </option>
       </select>
     </div>
     <div class="form-group">

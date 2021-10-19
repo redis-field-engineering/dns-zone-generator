@@ -1,0 +1,46 @@
+{% extends "bootstrap/base.html" %}
+{% block title %}Input Zone Information{% endblock %}
+
+{% block navbar %}
+{{ nav.top.render() }}
+{% endblock %}
+
+{% block metas %}
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+{% endblock %}
+
+{% block styles %}
+  <link href="//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+  <link rel="stylesheet" href="//jqueryui.com/resources/demos/style.css">
+{% endblock %}
+
+{% block scripts %}
+{% endblock %}
+
+
+{% block content %}
+<tr><td>
+<div class="container-fluid">
+
+{% if data['iptype'] == 'PRIVATE' %}
+This is a private IP address and needs to be worked around using <a href="https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/resolver.html"> Route53 fowarders</a><br>
+<br>
+{% endif %}
+
+<br><br><h2>Create Node 1 Glue Record</h2><br>
+<img src="/genimage?tld={{ data['tld'] }}&record=ns1.{{ data['prefix'] }}&record_type=route53A&ip_addrs={{ data['ip1'] }}&template=route53_record">
+
+<br><br><h2>Create Node 2 Glue Record</h2><br>
+<img src="/genimage?tld={{ data['tld'] }}&record=ns1.{{ data['prefix'] }}&record_type=route53A&ip_addrs={{ data['ip2'] }}&template=route53_record">
+
+<br><br><h2>Create Node 3 Glue Record</h2><br>
+<img src="/genimage?tld={{ data['tld'] }}&record=ns1.{{ data['prefix'] }}&record_type=route53A&ip_addrs={{ data['ip3'] }}&template=route53_record">
+
+<br><br><h2>Create NS Records</h2><br>
+<img src="/genimage?tld={{ data['tld'] }}&record=ns1.{{ data['prefix'] }}&record_type=route53NS&ip_addrs={{ data['ip1'] }},{{ data['ip2'] }},{{ data['ip3'] }}&template=route53_record">
+
+
+</div>
+{% endblock %}

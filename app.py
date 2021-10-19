@@ -1,9 +1,10 @@
-from flask import Flask, render_template, request, redirect, session
+from flask import Flask, render_template, request, redirect, session, send_file
 from flask_session import Session
 from flask_bootstrap import Bootstrap
 from flask_nav import Nav
 from flask_nav.elements import Navbar, View
 from IPy import IP
+from genimage import DocImage
 
 
 app = Flask(
@@ -62,6 +63,26 @@ def generatezone():
    # Add all the information to the current session
    session['zone_info'] = f
    return render_template(mytemplate, data = f)
+
+@app.route('/genimage')
+def genimage():
+   image_strings = {
+      'route53A': 'A - Routes traffice to an IPv4 address..',
+      'route53NS': 'NS - Name servers for a hosted zone',
+   }
+
+   data = {key:value for (key,value) in request.args.items()}
+   data['record_string'] = image_strings[request.args.get('record_type')]
+   data['ips'] = request.args.get('ip_addrs').split(',')
+   
+   print(data)
+
+   img = DocImage(data['template'])
+   return send_file(
+      img.gen_route53(data),
+      mimetype='image/jpeg'
+      )
+
 
 if __name__ == '__main__':
    sess = Session(app)
