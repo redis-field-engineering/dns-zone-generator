@@ -74,8 +74,6 @@ def genimage():
    data = {key:value for (key,value) in request.args.items()}
    data['record_string'] = image_strings[request.args.get('record_type')]
    data['ips'] = request.args.get('ip_addrs').split(',')
-   
-   print(data)
 
    img = DocImage(data['template'])
    return send_file(
