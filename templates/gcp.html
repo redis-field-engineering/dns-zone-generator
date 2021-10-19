@@ -25,22 +25,34 @@
 <div class="container-fluid">
 
 {% if data['iptype'] == 'PRIVATE' %}
-This is a private IP address and needs to be worked around using <a href="https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/resolver.html"> Route53 fowarders</a><br>
+The IP addreses provided:
+<ul>
+        <li>{{ data['ip1'] }}</li>
+        <li>{{ data['ip2'] }}</li>
+        <li>{{ data['ip3'] }}</li>
+</ul>
+
+<br>Are non-routable addresses.
+<br>Google requires that you provide public IP addresses for resolvers.
+<br>Please regenerate your zone with public IPs attached to your nodes.
+
+
 <br>
-{% endif %}
+{% else %}
 
 <br><br><h2>Create Node 1 Glue Record</h2><br>
-<img src="/genimageroute53?tld={{ data['tld'] }}&record=ns1.{{ data['prefix'] }}&record_type=route53A&ip_addrs={{ data['ip1'] }}&template=route53_record">
+<img src="/genimagegcp?fqdn={{ data['fqdn'] }}&record=ns1&record_type=gcp_a&ip_addrs={{ data['ip1'] }}">
 
 <br><br><h2>Create Node 2 Glue Record</h2><br>
-<img src="/genimageroute53?tld={{ data['tld'] }}&record=ns1.{{ data['prefix'] }}&record_type=route53A&ip_addrs={{ data['ip2'] }}&template=route53_record">
+<img src="/genimagegcp?fqdn={{ data['fqdn'] }}&record=ns2&record_type=gcp_a&ip_addrs={{ data['ip2'] }}">
 
 <br><br><h2>Create Node 3 Glue Record</h2><br>
-<img src="/genimageroute53?tld={{ data['tld'] }}&record=ns1.{{ data['prefix'] }}&record_type=route53A&ip_addrs={{ data['ip3'] }}&template=route53_record">
+<img src="/genimagegcp?fqdn={{ data['fqdn'] }}&record=ns3&record_type=gcp_a&ip_addrs={{ data['ip3'] }}">
 
 <br><br><h2>Create NS Records</h2><br>
-<img src="/genimageroute53?tld={{ data['tld'] }}&record=ns1.{{ data['prefix'] }}&record_type=route53NS&ip_addrs={{ data['ip1'] }},{{ data['ip2'] }},{{ data['ip3'] }}&template=route53_record">
+<img src="/genimagegcp?fqdn={{ data['fqdn'] }}&record_type=gcp_ns&ip_addrs={{ data['ip1'] }},{{ data['ip2'] }},{{ data['ip3'] }}">
 
+{% endif %}
 
 </div>
 {% endblock %}

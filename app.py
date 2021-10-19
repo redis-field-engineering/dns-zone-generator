@@ -64,8 +64,8 @@ def generatezone():
    session['zone_info'] = f
    return render_template(mytemplate, data = f)
 
-@app.route('/genimage')
-def genimage():
+@app.route('/genimageroute53')
+def genimageroute53():
    image_strings = {
       'route53A': 'A - Routes traffice to an IPv4 address..',
       'route53NS': 'NS - Name servers for a hosted zone',
@@ -78,9 +78,18 @@ def genimage():
    img = DocImage(data['template'])
    return send_file(
       img.gen_route53(data),
-      mimetype='image/jpeg'
+      mimetype='image/png'
       )
 
+@app.route('/genimagegcp')
+def genimagegcp():
+   data = {key:value for (key,value) in request.args.items()}
+   data['ips'] = request.args.get('ip_addrs').split(',')
+   img = DocImage(data['record_type'])
+   return send_file(
+      img.gen_gcp(data),
+      mimetype='image/png'
+   )
 
 if __name__ == '__main__':
    sess = Session(app)

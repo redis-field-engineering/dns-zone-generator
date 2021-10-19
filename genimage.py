@@ -9,7 +9,7 @@ class DocImage:
 
     def return_image(self, img):
         img_io = BytesIO()
-        img.save(img_io, 'JPEG', quality=70)
+        img.save(img_io, 'PNG', quality=70)
         img_io.seek(0)
         return img_io
 
@@ -25,3 +25,17 @@ class DocImage:
             d1.text((819, ypos), ip, font=myFont, fill =(0,0,0))
             ypos += 15
         return self.return_image(self.img)
+
+    def gen_gcp(self, data):
+        d1 = ImageDraw.Draw(self.img)
+        myFont = ImageFont.truetype("assets/Amazon-Ember-Medium.ttf", 14)
+        if data['record_type'] == "gcp_a":
+            d1.text((290, 136), '{}.{}'.format(data['record'], data['fqdn']), font=myFont, fill =(0,0,0))
+            d1.text((290, 430), data['ip_addrs'], font=myFont, fill =(0,0,0))
+        else:
+            d1.text((290, 136), data['fqdn'], font=myFont, fill =(0,0,0))
+            d1.text((290, 430), data['fqdn'], font=myFont, fill =(0,0,0))
+            d1.text((290, 500), data['fqdn'], font=myFont, fill =(0,0,0))
+            d1.text((290, 570), data['fqdn'], font=myFont, fill =(0,0,0))
+        return self.return_image(self.img)
+
