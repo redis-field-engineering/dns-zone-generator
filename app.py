@@ -91,6 +91,17 @@ def genimagegcp():
       mimetype='image/png'
    )
 
+@app.route('/genimageazure')
+def genimageazure():
+   data = {key:value for (key,value) in request.args.items()}
+   data['ips'] = request.args.get('ip_addrs').split(',')
+   img = DocImage(data['record_type'])
+   return send_file(
+      img.gen_azure(data),
+      mimetype='image/png'
+   )
+
+
 if __name__ == '__main__':
    sess = Session(app)
    sess.init_app(app)

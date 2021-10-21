@@ -39,3 +39,20 @@ class DocImage:
             d1.text((290, 570), data['fqdn'], font=myFont, fill =(0,0,0))
         return self.return_image(self.img)
 
+
+    def gen_azure(self, data):
+        d1 = ImageDraw.Draw(self.img)
+        myFont = ImageFont.truetype("assets/Amazon-Ember-Medium.ttf", 14)
+        if data['record_type'] == "azure_a":
+            d1.text((15, 44), data['tld'], font=myFont, fill =(0,0,0))
+            d1.text((26, 102), '{}.{}'.format(data['record'], data['prefix']), font=myFont, fill =(0,0,0))
+            d1.text((259, 124), '.{}'.format(data['tld']), font=myFont, fill =(0,0,0))
+            d1.text((35, 372), data['ip_addrs'], font=myFont, fill =(0,0,0))
+        else:
+            d1.text((20, 42), data['tld'], font=myFont, fill =(0,0,0))
+            d1.text((30, 100), data['prefix'], font=myFont, fill =(0,0,0))
+            d1.text((259, 124), '.{}'.format(data['tld']), font=myFont, fill =(0,0,0))
+            d1.text((30, 318), '{}.{}'.format("ns1", data['prefix']), font=myFont, fill =(0,0,0))
+            d1.text((30, 348), '{}.{}'.format("ns2", data['prefix']), font=myFont, fill =(0,0,0))
+            d1.text((30, 380), '{}.{}'.format("ns3", data['prefix']), font=myFont, fill =(0,0,0))
+        return self.return_image(self.img)

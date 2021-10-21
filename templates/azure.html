@@ -1,0 +1,59 @@
+{% extends "bootstrap/base.html" %}
+{% block title %}Input Zone Information{% endblock %}
+
+{% block navbar %}
+{{ nav.top.render() }}
+{% endblock %}
+
+{% block metas %}
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+{% endblock %}
+
+{% block styles %}
+  <link href="//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+  <link rel="stylesheet" href="//jqueryui.com/resources/demos/style.css">
+{% endblock %}
+
+{% block scripts %}
+{% endblock %}
+
+
+{% block content %}
+<tr><td>
+<div class="container-fluid">
+
+{% if data['iptype'] == 'PRIVATE' %}
+The IP addreses provided:
+<ul>
+        <li>{{ data['ip1'] }}</li>
+        <li>{{ data['ip2'] }}</li>
+        <li>{{ data['ip3'] }}</li>
+</ul>
+
+<br>Are non-routable addresses.
+<br>Azure requires that you provide public IP addresses for resolvers.
+<br>Please regenerate your zone with public IPs attached to your nodes.
+
+
+<br>
+{% else %}
+
+<br><br><h2>Create Node 1 Glue Record</h2><br>
+<img src="/genimageazure?tld={{ data['tld']}}&prefix={{data['prefix']}}&fqdn={{ data['fqdn'] }}&record=ns1&record_type=azure_a&ip_addrs={{ data['ip1'] }}">
+
+<br><br><h2>Create Node 2 Glue Record</h2><br>
+<img src="/genimageazure?tld={{ data['tld']}}&prefix={{data['prefix']}}&fqdn={{ data['fqdn'] }}&record=ns1&record_type=azure_a&ip_addrs={{ data['ip2'] }}">
+
+
+<br><br><h2>Create Node 3 Glue Record</h2><br>
+<img src="/genimageazure?tld={{ data['tld']}}&prefix={{data['prefix']}}&fqdn={{ data['fqdn'] }}&record=ns1&record_type=azure_a&ip_addrs={{ data['ip3'] }}">
+
+<br><br><h2>Create NS Records</h2><br>
+<img src="/genimageazure?tld={{ data['tld']}}&prefix={{data['prefix']}}&fqdn={{ data['fqdn'] }}&record=ns1&record_type=azure_ns&ip_addrs={{ data['ip3'] }}">
+
+{% endif %}
+
+</div>
+{% endblock %}
