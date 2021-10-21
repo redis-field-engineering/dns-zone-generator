@@ -31,7 +31,8 @@ Try generating a zone for full troubleshooting information
 
 <h4> On a client node run</h4>
 <pre>
-$  ./dnstracer --suggest -e redis-PORTNUMBER.{{ zone_info['fqdn'] }}
+$  ./dnstracer --suggest -e redis-PORTNUMBER.{{ zone_info['fqdn'] }} {% if zone_info['iptype'] == 'PRIVATE' -%} --internal {% endif %}
+
 </pre><br><br>
 
 <h2>Troubleshoot using dig </h2>
