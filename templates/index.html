@@ -43,7 +43,10 @@
       <input id="ip3" class="form-control" name="ip3" value="{{ zone_info['ip3'] }}">
     </div>
     <div class="form-group">
-      <label for="cars">Select DNS Server:</label>
+      <label for="cars">Select DNS Server:</label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+      <button type="button" class="btn btn-link" data-toggle="tooltip" data-placement="right" title="If you want to share with someone else select: 'Bind' ">
+  ?
+</button>
       <select name="server" id="server" class="form-control">
         <option {% if zone_info['server'] == "bind" %} selected="selected" {% endif -%} value="bind">Bind</option>
         <option {% if zone_info['server'] == "azure" %} selected="selected" {% endif -%} value="azure">Azure</option>
