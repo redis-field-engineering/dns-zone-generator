@@ -62,6 +62,7 @@ ns2.{{ zone_info['fqdn'] }}.
 ns3.{{ zone_info['fqdn'] }}.
 </pre>
 
+{% if zone_info['server'] == "bind" %}
 <br><h3> Check Connectivity from the DNS server to Redis Enterprise Service </h3><br><br>
 
 <h4> On the DNS server run </h4>
@@ -77,6 +78,8 @@ ns1.{{ zone_info['fqdn'] }}.
 ns3.{{ zone_info['fqdn'] }}.
 ns2.{{ zone_info['fqdn'] }}.
 </pre>
+
+{% endif %}
 
 <br><h3> Check Client resolution of the Redis Enterprise Service</h3><br><br>
 <h4> On the client server </h4>
