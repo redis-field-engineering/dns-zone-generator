@@ -62,7 +62,11 @@ def generatezone():
    f['host1-short'] = f['host1'].split('.')[0]
    f['host2-short'] = f['host2'].split('.')[0]
    f['host3-short'] = f['host3'].split('.')[0]
-   f['iptype'] = IP(f['ip1']).iptype()
+   try:
+      f['iptype'] = IP(f['ip1']).iptype()
+   except ValueError:
+      return "<html> <body> <p>Incorrect IP addres format.</p><p>You will be redirected in 3 seconds</p> <script> var timer = setTimeout(function() { window.location='/' }, 3000); </script> </body> </html>"
+
    mytemplate = '{}.html'.format(f['server'])
 
    # Add all the information to the current session
