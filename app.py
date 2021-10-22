@@ -5,7 +5,7 @@ from flask_nav import Nav
 from flask_nav.elements import Navbar, View
 from IPy import IP
 from genimage import DocImage
-
+from os import environ
 
 app = Flask(
    __name__,
@@ -14,6 +14,11 @@ app = Flask(
    )
 bootstrap = Bootstrap()
 SESSION_TYPE = 'redis'
+
+# SESSION_REDIS format is redis://:[password]@[host_url]:[port]
+if environ.get('SESSION_REDIS') is not None:
+   SESSION_REDIS = redis.from_url(environ.get('SESSION_REDIS'))
+
 
 app.config.from_object(__name__)
 
