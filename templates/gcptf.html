@@ -33,7 +33,7 @@ The IP addreses provided:
 </ul>
 
 <br>Are non-routable addresses.
-<br>Azure requires that you provide public IP addresses for resolvers.
+<br>Google requires that you provide public IP addresses for resolvers.
 <br>Please regenerate your zone with public IPs attached to your nodes.
 
 
@@ -47,43 +47,35 @@ Modify the locals section to update your zone resource group
 <pre>
 
 ##########################################################################
-# Modify zone-resource-group to match your local resource group
+# Modify dns_zone to match your local resource group
 locals {
-  zone-resource-group = CHANGE_ME
-  cluster-prefix      = "{{ data['prefix'] }}
-  zone-name           = "{{ data['tld'] }}
+  dns_zone            = CHANGE_ME
+  cluster_prefix      = "{{ data['prefix'] }}"
+  zone-name           = "{{ data['tld'] }}"
   node-external-ips   = ["{{data['ip1']}}", "{{data['ip2']}}", "{{data['ip3']}}"]
 }
 ##########################################################################
 
-provider "azurerm" {
-  features {}
+resource "google_dns_record_set" "re_a" {
+    count        = len(node-external-ips)
+    managed_zone = local.dns_zone
+    name         = "ns${count.index + 1}.${local.cluster-prefix}.${local.zone-name}"
+    type         = "A"
+    ttl          = 300
+    rrdatas      =  [ element(local.node-external-ips, count.index) ]
 }
 
-resource "azurerm_dns_ns_record" "re-dns-ns" {
-  name                = local.cluster-prefix
-  zone_name           = local.zone-name
-  resource_group_name = local.zone-resource-group
-  ttl                 = 300
-
-  records = [
-    "ns1.${local.cluster-prefix}.${local.zone-name}",
-    "ns2.${local.cluster-prefix}.${local.zone-name}",
-    "ns3.${local.cluster-prefix}.${local.zone-name}"
-  ]
-
-}
-
-resource "azurerm_dns_a_record" "re-dns-a" {
-  count               = length(local.node-external-ips)
-  name                = "ns${count.index + 1}.${local.cluster-prefix}"
-  zone_name           = local.zone-name
-  resource_group_name = local.zone-resource-group
-  ttl                 = 300
-  records             = [element(local.node-external-ips, count.index)]
+resource "google_dns_record_set" "re_ns" {
+    managed_zone = local.dns_zone
+    name         = "${local.cluster-prefix}.${local.zone-name}"
+    type         = "NS"
+    ttl          = 300
+    rrdatas      = google_dns_record_set.re_a.*.name
+    depends_on   = [google_dns_record_set.re_a]
 }
 
 </pre>
+
 {% endif %}
 </div>
 {% endblock %}

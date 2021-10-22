@@ -55,6 +55,7 @@
         <option {% if zone_info['server'] == "route53" %} selected="selected" {% endif -%} value="route53">AWS Route53 </option>
         <option {% if zone_info['server'] == "gcp_cli" %} selected="selected" {% endif -%} value="gcp_cli">Google Cloud CLI </option>
         <option {% if zone_info['server'] == "gcp" %} selected="selected" {% endif -%} value="gcp">Google Cloud</option>
+        <option {% if zone_info['server'] == "gcptf" %} selected="selected" {% endif -%} value="gcptf">Google Cloud Terraform</option>
       </select>
     </div>
     <div class="form-group">
