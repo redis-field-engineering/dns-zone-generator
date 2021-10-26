@@ -1,0 +1,16 @@
+[Unit]
+Description=DNS Zone Generator
+After=docker.service
+Requires=docker.service
+ 
+[Service]
+TimeoutStartSec=0
+Restart=always
+ExecStartPre=-/usr/bin/docker stop dnszonegenerator
+ExecStartPre=-/usr/bin/docker rm dnszonegenerator
+ExecStartPre=/usr/bin/docker pull maguec/dnszonegenerator:latest
+ExecStart=/usr/bin/docker run --name dnszonegenerator -p 8088:8080 --rm --env FLASK_ENV=production --env SESSION_REDIS=redis://:[PASSWORD]@[REDISHOST]:[REDISPORT] maguec/dnszonegenerator:latest
+ 
+[Install]
+WantedBy=multi-user.target
+
