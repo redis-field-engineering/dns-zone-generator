@@ -6,6 +6,7 @@ from flask_nav.elements import Navbar, View
 from IPy import IP
 from genimage import DocImage
 from os import environ
+import redis
 
 app = Flask(
    __name__,
