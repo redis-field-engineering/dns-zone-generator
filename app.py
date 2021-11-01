@@ -40,7 +40,7 @@ def index():
          'tld': "example.com",
          'host1-short': "ns1",
          'host2-short': "ns2",
-         'host3-short': "ns2",
+         'host3-short': "ns3",
          'ip1': "10.1.1.1",
          'ip2': "10.1.1.2",
          'ip3': "10.1.1.3",
