@@ -34,9 +34,9 @@ class DocImage:
             d1.text((290, 430), data['ip_addrs'], font=myFont, fill =(0,0,0))
         else:
             d1.text((290, 136), data['fqdn'], font=myFont, fill =(0,0,0))
-            d1.text((290, 430), data['fqdn'], font=myFont, fill =(0,0,0))
-            d1.text((290, 500), data['fqdn'], font=myFont, fill =(0,0,0))
-            d1.text((290, 570), data['fqdn'], font=myFont, fill =(0,0,0))
+            d1.text((290, 430), '{}.{}'.format("ns1", data['fqdn']), font=myFont, fill =(0,0,0))
+            d1.text((290, 500), '{}.{}'.format("ns2", data['fqdn']), font=myFont, fill =(0,0,0))
+            d1.text((290, 570), '{}.{}'.format("ns3", data['fqdn']), font=myFont, fill =(0,0,0))
         return self.return_image(self.img)
 
 
