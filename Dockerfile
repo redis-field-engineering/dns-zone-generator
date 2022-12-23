@@ -18,4 +18,6 @@ RUN pip3 install -r requirements.txt
 
 COPY . /app
 
-CMD [ "/usr/bin/supervisord", "-c", "/etc/supervisor/conf.d/supervisord.conf" ]
+ENTRYPOINT [ "gunicorn" ]
+
+CMD ["--bind", "0.0.0.0:8080", "app"]
