@@ -1,6 +1,6 @@
 # DNS Zone Generator
 
-Generates DNS settings for Redis Enterprise zone delegation and detail troublshooting steps.
+DNS Zone Generator is a web-based tool that generates DNS settings for Redis Enterprise clusters.
 
 ### Zone generation
 
