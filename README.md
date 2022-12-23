@@ -1,11 +1,10 @@
 # DNS Zone Generator
 
-Generate DNS settings for Redis Enterprise zone delegation and detail troublshooting steps
+Generates DNS settings for Redis Enterprise zone delegation and detail troublshooting steps.
 
+### Zone generation
 
-### Zone Generation
-
-You can generate configurations for the following DNS servers/services with screenshots
+This tool generates configurations for the following DNS servers/services:
 - Bind
 - Azure (graphical)
 - Azure Terraform
@@ -19,40 +18,51 @@ You can generate configurations for the following DNS servers/services with scre
 
 Provides step-by-step troubleshooting of DNS Zone delegation to ensure ease of use.
 
+## Running locally
 
-## Running Locally
-
-Use [docker compose](https://docs.docker.com/compose/install/)
+First, build the Docker image:
 
 ```
-docker-compose up
+docker build -t dns-zone-generator .
 ```
 
-Use your browser to [connect](http://localhost:8080)
+Next, run the container:
+
+```
+docker run -p8080:8080 -t -i dns-zone-generator
+```
+
+Finally, use your web browser to naviate to [http://localhost:8080](http://localhost:8080)
 
 ## Development
 
-### Startup Docker Redis
+DNS Zone Generator is a [Flask](https://flask.palletsprojects.com/en/2.2.x/) app. To run the application in development mode, you'll need Python 3.6. We also recommend [pyenv](https://github.com/pyenv/pyenv#getting-pyenv) for managing your Python evironment.
+
+From the **root directory** of the application, do the following:
+
+1. Install Python 3.6:
 
 ```
-docker run -p 6379:6379 redislabs/redismod:edge
+pyenv install 3.6
 ```
 
-### Setup python environment
+2. Create a virtual environment for the application's dependencies, and select this environment:
 
 ```
-python3 -m venv .venv
-source .venv/bin/activate
+pyenv virtualenv 3.6 dns-zone-generator
+pyenv local dns-zone-generator
+```
+
+3. Install the dependencies:
+
+```
 pip install -r requirements.txt
 ```
 
-### Startup Application
+4. Run the Flask app:
 
 ```
-python3 app.py
+flask run -p 8080
 ```
 
-### Connect using browser
-
-https://localhost:8080
-
+If the app starts correctly, you should be able to navigate to [http://localhost:8080](http://localhost:8080).

@@ -1,12 +1,11 @@
 from flask import Flask, render_template, request, redirect, session, send_file
-from flask_session import Session
 from flask_bootstrap import Bootstrap
 from flask_nav import Nav
 from flask_nav.elements import Navbar, View
 from IPy import IP
 from genimage import DocImage
 from os import environ
-import redis
+import secrets
 
 app = Flask(
    __name__,
@@ -14,15 +13,8 @@ app = Flask(
    static_folder='images',
    )
 bootstrap = Bootstrap()
-SESSION_TYPE = 'redis'
-
-# SESSION_REDIS format is redis://:[password]@[host_url]:[port]
-if environ.get('SESSION_REDIS') is not None:
-   SESSION_REDIS = redis.from_url(environ.get('SESSION_REDIS'))
-
 
 app.config.from_object(__name__)
-
 
 nav = Nav()
 topbar = Navbar('',
@@ -112,10 +104,8 @@ def genimageazure():
    )
 
 
-if __name__ == '__main__':
-   sess = Session(app)
-   sess.init_app(app)
-   bootstrap.init_app(app)
-   nav.init_app(app)
-   app.debug = True
-   app.run(port=8080, host="0.0.0.0")
+bootstrap.init_app(app)
+nav.init_app(app)
+app.debug = True
+app.secret_key = secrets.token_hex()
+application = app
