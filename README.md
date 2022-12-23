@@ -65,4 +65,4 @@ pip install -r requirements.txt
 flask run -p 8080
 ```
 
-If the app starts correctly, you should be able to navigate to [http://localhost:8080](http://localhost:8080).
+If the app starts correctly, you can access the tool at [http://localhost:8080](http://localhost:8080).
