@@ -40,6 +40,8 @@ First, configure your FQDN, DNS zones, and platform:
 
 ![Zone configuration image](docs/zone-configuration.png)
 
+<hr/>
+
 The tool will then generate your zone configuration:
 
 ![Generated zone](docs/generated-zone.png)
