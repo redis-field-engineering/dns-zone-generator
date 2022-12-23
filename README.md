@@ -66,3 +66,7 @@ flask run -p 8080
 ```
 
 If the app starts correctly, you can access the tool at [http://localhost:8080](http://localhost:8080).
+
+## License
+
+DNS Zone Generator is licensed under the MIT License. See LICENSE for details.
