@@ -38,13 +38,13 @@ Finally, use your web browser to naviate to [http://localhost:8080](http://local
 
 First, configure your FQDN, DNS zones, and platform:
 
-![Zone configuration image](docs/zone-configuration.png)
+![Zone configuration image](docs/zone-config.png)
 
 <hr/>
 
 The tool will then generate your zone configuration:
 
-![Generated zone](docs/generated-zone.png)
+![Generated zone](docs/gen-zone.png)
 
 ## Development
 
