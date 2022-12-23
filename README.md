@@ -34,6 +34,16 @@ docker run -p8080:8080 -t -i dns-zone-generator
 
 Finally, use your web browser to naviate to [http://localhost:8080](http://localhost:8080).
 
+## Using
+
+First, configure your FQDN, DNS zones, and platform:
+
+![Zone configuration image](docs/zone-configuration.png)
+
+The tool will then generate your zone configuration:
+
+![Generated zone](docs/generated-zone.png)
+
 ## Development
 
 DNS Zone Generator is a [Flask](https://flask.palletsprojects.com/en/2.2.x/) app. To run the application in development mode, you'll need Python 3.6. We also recommend [pyenv](https://github.com/pyenv/pyenv#getting-pyenv) for managing your Python evironment.
