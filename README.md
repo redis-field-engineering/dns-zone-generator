@@ -32,7 +32,7 @@ Next, run the container:
 docker run -p8080:8080 -t -i dns-zone-generator
 ```
 
-Finally, use your web browser to naviate to [http://localhost:8080](http://localhost:8080)
+Finally, use your web browser to naviate to [http://localhost:8080](http://localhost:8080).
 
 ## Development
 
