@@ -20,6 +20,8 @@ on:
 name: Build and Deploy to Cloud Run
 env:
   PROJECT_ID: ${{ secrets.GCP_PROJECT }}
+  IDENTITY_PROVIDER: ${{ secrets.GCP_WORKLOAD_ID_PROVIDER }}
+  SERVICE_ACCOUNT: ${{ secrets.GCP_SERVICE_ACCOUNT }}
   SERVICE: dns-zone-generator
   REGION: us-central1
 
@@ -38,8 +40,8 @@ jobs:
 
     - uses: 'google-github-actions/auth@v1'
       with:
-        workload_identity_provider: ${{ secrets.GCP_WORKLOAD_ID_PROVIDER }}
-        service_account: ${{ secrets.GCP_SERVICE_ACCOUNT }}
+        workload_identity_provider: ${{ env.IDENTITY_PROVIDER }}
+        service_account: ${{ env.SERVICE_ACCOUNT }}
 
     # Setup gcloud CLI
     - name: Set up Cloud SDK
