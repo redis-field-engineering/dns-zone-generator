@@ -62,3 +62,9 @@ jobs:
           --image gcr.io/${{ env.PROJECT_ID }}/${{ env.SERVICE }}:${{  github.sha }} \
           --platform "managed" \
           --quiet
+
+    - name: Deploy to Cloud Run
+      run: |-
+       gcloud run services add-iam-policy-binding ${{ env.SERVICE }} \
+       --member="allUsers" \
+       --role="roles/run.invoker"
